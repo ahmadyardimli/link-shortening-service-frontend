@@ -245,5 +245,5 @@ link-shortening-service-frontend/
 
 ## License
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-This project is licensed under the **Apache License 2.0** — see the [LICENSE](LICENSE) file for details.
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/ahmadyardimli/link-shortening-service-frontend/blob/main/LICENSE)
+This project is licensed under the **Apache License 2.0** — see the [LICENSE](https://github.com/ahmadyardimli/link-shortening-service-frontend/blob/main/LICENSE) file for details.
