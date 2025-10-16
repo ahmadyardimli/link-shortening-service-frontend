@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo"><h1>🔗 Short.ly</h1></div>
+      <nav class="nav">
+        <button id="authBtn" class="btn btn-primary">Login</button>
+        <button id="logoutBtn" class="btn btn-secondary" style="display:none;">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="container">
+      <section class="welcome-section">
+        <h2>Shorten Your URLs Instantly</h2>
+        <p>Create short, memorable links that are easy to share</p>
+      </section>
+
+      <!-- Shortener -->
+      <section class="shortener-section">
+        <div class="card">
+          <form id="shortenForm">
+            <div class="form-group">
+              <label for="longUrl">Enter your long URL</label>
+              <input type="url" id="longUrl" placeholder="https://example.com/very/long/url" required />
+            </div>
+
+            <div class="advanced-options" id="advancedOptions" style="display:none;">
+              <div class="form-group">
+                <label for="customAlias">Custom Alias (optional)</label>
+                <input type="text" id="customAlias" placeholder="my-custom-link" pattern="[a-zA-Z0-9-_]*" maxlength="50"/>
+                <small>Only letters, numbers, hyphens, and underscores</small>
+              </div>
+              <div class="form-group">
+                <label for="expirationDays">Expiration (days)</label>
+                <input type="number" id="expirationDays" placeholder="Leave empty for no expiration" min="1"/>
+              </div>
+              <div class="form-group checkbox-group">
+                <label>
+                  <input type="checkbox" id="reuseExisting" checked/>
+                  Reuse existing short URL if available
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="toggleAdvanced" class="btn btn-link">⚙️ Advanced Options</button>
+              <button type="submit" class="btn btn-primary btn-large">Shorten URL</button>
+            </div>
+          </form>
+
+          <!-- Result -->
+          <div id="resultSection" class="result-section" style="display:none;">
+            <div class="result-card">
+              <h3>✅ Your shortened URL:</h3>
+              <div class="short-url-display">
+                <input type="text" id="shortUrlInput" readonly />
+                <button id="copyBtn" class="btn btn-primary">Copy</button>
+                <!-- a real "Open" that targets backend redirect in dev -->
+                <button id="openBtn" class="btn btn-secondary">Open</button>
+              </div>
+              <p class="success-message">Link copied to clipboard!</p>
+            </div>
+          </div>
+
+          <!-- Errors -->
+          <div id="errorSection" class="error-section" style="display:none;">
+            <p id="errorMessage"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Authenticated statistics -->
+      <section id="statsSection" class="stats-section" style="display:none;">
+        <div class="card">
+          <h3>📊 Your Statistics</h3>
+          <div class="stats-overview">
+            <div class="stat-item">
+              <span class="stat-label">Total URLs</span>
+              <span class="stat-value" id="totalUrls">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total Clicks</span>
+              <span class="stat-value" id="totalClicks">0</span>
+            </div>
+          </div>
+
+          <div class="urls-list" id="urlsList"></div>
+        </div>
+      </section>
+
+      <!-- Public single URL stats -->
+      <section class="single-stats-section">
+        <div class="card">
+          <h3>🔍 Check URL Statistics</h3>
+          <form id="statsForm">
+            <div class="form-group">
+              <label for="shortCode">Enter short code</label>
+              <input type="text" id="shortCode" placeholder="abc123" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Get Statistics</button>
+          </form>
+          <div id="singleStatsResult" class="single-stats-result" style="display:none;"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <div id="loginForm" class="auth-form">
+        <h2>Login</h2>
+        <form id="loginFormElement">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <p class="auth-switch">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+      </div>
+
+      <div id="registerForm" class="auth-form" style="display:none;">
+        <h2>Register</h2>
+        <form id="registerFormElement">
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" required />
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <input type="password" id="registerPassword" required minlength="6" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Login</a></p>
+      </div>
+
+      <div id="authError" class="error-section" style="display:none;">
+        <p id="authErrorMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script order matters: api -> auth -> app -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+
